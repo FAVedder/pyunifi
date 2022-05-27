@@ -211,7 +211,7 @@ Gets the current state & configuration of the given device based on its MAC Addr
 ### `get_radius_users(self)`
 Returns a list of all RADIUS users, name, password, 24 digit user id, and 24 digit site id.
 
-### `add_radius_user(self, name, password)`
+### `add_radius_user(self, name, password, tunnel_type, tunnel_medium_type, vlan)`
 Add a new RADIUS user with this username and password.
 
 - `name` -- the new user's username
