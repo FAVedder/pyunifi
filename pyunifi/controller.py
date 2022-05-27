@@ -331,13 +331,35 @@ class Controller:  # pylint: disable=R0902,R0904
         """
         return self._api_read('rest/account')
 
-    def add_radius_user(self, name, password):
+    def add_radius_user(self, name, password, tunnel_type = None, tunnel_medium_type = None, vlan = None):
         """Add a new user with this username and password
         :param name: new user's username
         :param password: new user's password
+        :param tunnel_type: optional, new user's tunnel type,
+            must be in range 1-13
+        :param tunnel_medium_type: optional, new user's tunnel medium type,
+            must be in range 1-15
+        :param vlan: optional, new user's assigned vlan
         :returns: user's name, password, 24 digit user id, and 24 digit site id
         """
+        tunnel_type_values        = [None, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        tunnel_medium_type_values = [None, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+        if (tunnel_type not in tunnel_type_values or tunnel_medium_type not in tunnel_medium_type_values 
+        or (tunnel_type is None and tunnel_medium_type is not None or tunnel_type is not None and tunnel_medium_type is None)):
+            raise APIError("Invalid tunnel ('{}') or tunnel medium ('{}') type".format(tunnel_type, tunnel_medium_type))
+
         params = {'name': name, 'x_password': password}
+
+        if tunnel_type is not None:
+            params['tunnel_type'] = tunnel_type
+        
+        if tunnel_medium_type is not None:
+            params['tunnel_medium_type'] = tunnel_medium_type
+
+        if vlan is not None:
+            params['vlan'] = vlan
+
         return self._api_write('rest/account/', params)
 
     def update_radius_user(self, name, password, user_id):

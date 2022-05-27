@@ -216,6 +216,9 @@ Add a new RADIUS user with this username and password.
 
 - `name` -- the new user's username
 - `password` -- the new user's password
+- `tunnel_type` -- optional, new user's tunnel type, must be in range 1-13
+- `tunnel_medium_type` -- optional, new user's tunnel medium type, must be in range 1-15
+- `vlan` -- optional, new user's assigned vlan
 
 ### `update_radius_user(self, name, password, id)`
 Update a RADIUS user to this new username and password. 
